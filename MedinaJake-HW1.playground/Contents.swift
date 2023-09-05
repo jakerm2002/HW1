@@ -111,7 +111,6 @@ class RPGCharacter {
             print("\(character.name) has been defeated!")
         }
     }
-    
 }
 
 class Fighter: RPGCharacter {
@@ -199,7 +198,6 @@ class Wizard: RPGCharacter {
             print("\(target.name) is now down to \(target.health) health")
             checkForDefeat(character: target)
         }
-        
     }
 }
 
