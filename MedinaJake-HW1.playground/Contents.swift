@@ -56,6 +56,25 @@ class RPGCharacter {
         self.spellPoints = spellPoints
     }
     
+    func wield(weapon: Weapon) {
+        self.weapon = weapon
+        print("\(self.name) is now wielding a(n) \(weapon.getType())")
+    }
+    
+    func unwield() {
+        self.weapon = Weapon(weaponType: "none")
+        print("\(self.name) is no longer wielding anything.")
+    }
+    
+    func putOnArmor(armor: Armor) {
+        self.armor = armor
+        print("\(self.name) is now wearing \(armor.getType())")
+    }
+    
+    func takeOffArmor() {
+        self.armor = Armor(armorType: "none")
+        print("\(self.name) is no longer wearing any armor.")
+    }
 }
 
 class Fighter: RPGCharacter {
@@ -66,33 +85,17 @@ class Fighter: RPGCharacter {
         super.init(name: name, health: 40, spellPoints: 0)
     }
 
-    func wield(weapon: Weapon) {
+    override func wield(weapon: Weapon) {
         if (allowedWeapons.contains(weapon.getType())) {
-            self.weapon = weapon
-            print("\(self.name) is now wielding a(n) \(weapon.getType())")
+            super.wield(weapon: weapon)
         } else {
             print("Weapon not allowed for this character class.")
         }
     }
-
-    func unwield(weapon: Weapon) {
-        self.weapon = Weapon(weaponType: "none")
-        print("\(self.name) is no longer wielding anything.")
-    }
     
-    func putOnArmor(armor: Armor) {
+    override func putOnArmor(armor: Armor) {
         if (allowedArmor.contains(armor.getType())) {
-            self.armor = armor
-            print("\(self.name) is now wearing \(armor.getType())")
-        } else {
-            print("Armor not allowed for this character class.")
-        }
-    }
-    
-    func takeOffArmor(armor: Armor) {
-        if (allowedArmor.contains(armor.getType())) {
-            self.armor = Armor(armorType: "none")
-            print("\(self.name) is now wearing \(armor.getType())")
+            super.putOnArmor(armor: armor)
         } else {
             print("Armor not allowed for this character class.")
         }
@@ -105,6 +108,22 @@ class Wizard: RPGCharacter {
     
     init(name: String) {
         super.init(name: name, health: 16, spellPoints: 20)
+    }
+    
+    override func wield(weapon: Weapon) {
+        if (allowedWeapons.contains(weapon.getType())) {
+            super.wield(weapon: weapon)
+        } else {
+            print("Weapon not allowed for this character class.")
+        }
+    }
+    
+    override func putOnArmor(armor: Armor) {
+        if (allowedArmor.contains(armor.getType())) {
+            super.putOnArmor(armor: armor)
+        } else {
+            print("Armor not allowed for this character class.")
+        }
     }
 }
 
