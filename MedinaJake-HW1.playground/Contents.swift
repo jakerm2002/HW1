@@ -20,6 +20,10 @@ class Weapon {
     func getType() -> String {
         return type
     }
+    
+    func getDamage() -> Int {
+        return damageLevels[type]!
+    }
 }
 
 class Armor {
@@ -51,8 +55,8 @@ class RPGCharacter {
     var armor = Armor(armorType: "none")
     var weapon = Weapon(weaponType: "none")
     
-    let health: Int
-    let spellPoints: Int
+    var health: Int
+    var spellPoints: Int
     
     init(name: String, health: Int, spellPoints: Int) {
         self.name = name
@@ -88,6 +92,21 @@ class RPGCharacter {
         print("   Wearing: \(armor.getType())")
         print("   Armor Clas: \(armor.getACLevel())")
     }
+    
+    func fight(opponent: RPGCharacter) {
+        print("\(name) attacks \(opponent.name) with a(n) \(weapon.getType())")
+        opponent.health = opponent.health - weapon.getDamage()
+        print("\(name) does \(weapon.getDamage()) damage to \(opponent.name)")
+        print("\(opponent.name) is now down to \(opponent.health) health")
+        checkForDefeat(character: opponent)
+    }
+    
+    func checkForDefeat(character: RPGCharacter) {
+        if character.health <= 0 {
+            print("\(character.name) has been defeated!")
+        }
+    }
+    
 }
 
 class Fighter: RPGCharacter {
