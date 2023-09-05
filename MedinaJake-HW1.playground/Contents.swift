@@ -58,10 +58,15 @@ class RPGCharacter {
     var health: Int
     var spellPoints: Int
     
+    let maxHealth: Int
+    let maxSpellPoints: Int
+    
     init(name: String, health: Int, spellPoints: Int) {
         self.name = name
         self.health = health
         self.spellPoints = spellPoints
+        self.maxHealth = health
+        self.maxSpellPoints = spellPoints
     }
     
     func wield(weaponObject weapon: Weapon) {
@@ -90,7 +95,7 @@ class RPGCharacter {
         print("   Current Spell Points: \(spellPoints)")
         print("   Wielding: \(weapon.getType())")
         print("   Wearing: \(armor.getType())")
-        print("   Armor Clas: \(armor.getACLevel())")
+        print("   Armor class: \(armor.getACLevel())")
     }
     
     func fight(opponent: RPGCharacter) {
@@ -138,6 +143,12 @@ class Wizard: RPGCharacter {
     var allowedWeapons: [String] = ["dagger", "staff"]
     var allowedArmor: [String] = ["none"]
     
+    static var spells: [String: (cost: Int, effect: Int)] = [
+        "Fireball" : (3, 5),
+        "Lightning Bolt" : (10, 10),
+        "Heal" : (6, -6)
+    ]
+    
     init(name: String) {
         super.init(name: name, health: 16, spellPoints: 20)
     }
@@ -157,9 +168,40 @@ class Wizard: RPGCharacter {
             print("Armor not allowed for this character class.")
         }
     }
+    
+    func castSpell(spellName: String, target: RPGCharacter) {
+        print("\(name) casts \(spellName) at \(target.name)")
+        if Wizard.spells[spellName] == nil {
+            print("Unknown spell name. Spell failed.")
+            return
+        }
+        if spellPoints < Wizard.spells[spellName]!.cost {
+            print("Insufficient spell points")
+            return
+        }
+        
+        let prevHealth = target.health
+        target.health = target.health - Wizard.spells[spellName]!.effect
+        if target.health > target.maxHealth {
+            target.health = target.maxHealth
+        }
+        
+        spellPoints = spellPoints - Wizard.spells[spellName]!.cost
+        if spellPoints > maxSpellPoints {
+            spellPoints = maxSpellPoints
+        }
+        
+        if spellName == "Heal" {
+            print("\(name) heals \(target.name) for \(target.health - prevHealth) health points")
+            print("\(target.name) is now at \(target.health) health")
+        } else {
+            print("\(name) does \(prevHealth - target.health) damage to \(target.name)")
+            print("\(target.name) is now down to \(target.health) health")
+            checkForDefeat(character: target)
+        }
+        
+    }
 }
-
-
 
 // top level code
 
