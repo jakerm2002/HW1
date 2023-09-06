@@ -181,14 +181,12 @@ class Wizard: RPGCharacter {
         
         let prevHealth = target.health
         target.health = target.health - Wizard.spells[spellName]!.effect
+        // don't let character health exceed maximum
         if target.health > target.maxHealth {
             target.health = target.maxHealth
         }
         
         spellPoints = spellPoints - Wizard.spells[spellName]!.cost
-        if spellPoints > maxSpellPoints {
-            spellPoints = maxSpellPoints
-        }
         
         if spellName == "Heal" {
             print("\(name) heals \(target.name) for \(target.health - prevHealth) health points")
