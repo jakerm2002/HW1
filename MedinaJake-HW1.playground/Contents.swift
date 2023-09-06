@@ -6,11 +6,11 @@ class Weapon {
     var type: String
 
     var damageLevels: [String: Int] = [
-        "dagger":4,
-        "axe":6,
-        "staff":6,
-        "sword":10,
-        "none":1
+        "dagger" : 4,
+        "axe" : 6,
+        "staff" : 6,
+        "sword" : 10,
+        "none" : 1
     ]
 
     init(weaponType: String) {
@@ -114,15 +114,15 @@ class RPGCharacter {
 }
 
 class Fighter: RPGCharacter {
-    var allowedWeapons: [String] = ["dagger", "axe", "staff", "sword", "none"]
-    var allowedArmor: [String] = ["plate", "chain", "leather", "none"]
+    static var allowedWeapons: [String] = ["dagger", "axe", "staff", "sword", "none"]
+    static var allowedArmor: [String] = ["plate", "chain", "leather", "none"]
 
     init(name: String) {
         super.init(name: name, health: 40, spellPoints: 0)
     }
 
     override func wield(weaponObject weapon: Weapon) {
-        if (allowedWeapons.contains(weapon.getType())) {
+        if (Fighter.allowedWeapons.contains(weapon.getType())) {
             super.wield(weaponObject: weapon)
         } else {
             print("Weapon not allowed for this character class.")
@@ -130,7 +130,7 @@ class Fighter: RPGCharacter {
     }
     
     override func putOnArmor(armorObject armor: Armor) {
-        if (allowedArmor.contains(armor.getType())) {
+        if (Fighter.allowedArmor.contains(armor.getType())) {
             super.putOnArmor(armorObject: armor)
         } else {
             print("Armor not allowed for this character class.")
@@ -139,8 +139,8 @@ class Fighter: RPGCharacter {
 }
 
 class Wizard: RPGCharacter {
-    var allowedWeapons: [String] = ["dagger", "staff"]
-    var allowedArmor: [String] = ["none"]
+    static var allowedWeapons: [String] = ["dagger", "staff", "none"]
+    static var allowedArmor: [String] = ["none"]
     
     static var spells: [String: (cost: Int, effect: Int)] = [
         "Fireball" : (3, 5),
@@ -153,7 +153,7 @@ class Wizard: RPGCharacter {
     }
     
     override func wield(weaponObject weapon: Weapon) {
-        if (allowedWeapons.contains(weapon.getType())) {
+        if (Wizard.allowedWeapons.contains(weapon.getType())) {
             super.wield(weaponObject: weapon)
         } else {
             print("Weapon not allowed for this character class.")
@@ -161,7 +161,7 @@ class Wizard: RPGCharacter {
     }
     
     override func putOnArmor(armorObject armor: Armor) {
-        if (allowedArmor.contains(armor.getType())) {
+        if (Wizard.allowedArmor.contains(armor.getType())) {
             super.putOnArmor(armorObject: armor)
         } else {
             print("Armor not allowed for this character class.")
